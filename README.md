@@ -3,6 +3,7 @@ Ovarro tech test for Leila Shaibu
 Technological Choices
 Java
 Java was chosen because it is widely used, has a robust library, and has cross-platform capabilities that ensure the game can be run on different operating systems without modifications. It is also one of the languages listed in the job description.
+
 Instructions to run
 1.)	Navigate to the connectFourOvarro directory
 2.)	To compile the Java files
