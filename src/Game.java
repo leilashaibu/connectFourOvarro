@@ -46,6 +46,13 @@ public class Game {
         for (int i = row -1; i >= 0; i--) {
             if (grid[i][cols].getColour().equals("WHITE")) { // Check if the cell is empty
                 grid[i][cols] = player.getToken(); // Place the token in the cell
+                //Checking if there is a win
+                if (determineWinner(i,cols)) {
+                    displayGridState();
+                    System.out.println("Player " + player.getToken().getColour() + " wins!!");
+                    // Game ends if there's a win
+                    System.exit(0);
+                }
                 // Checking if the grid is full,with no winner
                 if (isGridFull()) {
                     displayGridState();
@@ -80,4 +87,40 @@ public class Game {
         }
 
     }
+    public boolean determineWinner(int rows,int columns){
+        if (rows < 0 || rows >= this.row || columns < 0 || columns >= this.column) {
+            return false;
+        }
+        //Check if the grid is empty
+        PlayerToken cell = grid[rows][columns];
+        if (cell.getColour().equals("WHITE")) {
+            return false; // No win if the grid is empty
+        }
+        //Checking all possible directions for a win
+        return checkDirection(rows,columns,1,0)|| //horizontal
+                checkDirection(rows,columns,0,1) || //vertical
+                checkDirection(rows,columns,1,1)|| //diagonal /
+                checkDirection(rows,columns,1,-1); //diagonal \
+    }
+    public boolean checkDirection (int rows,int columns,int rowIncrease,int colIncrease){
+        int count = 0;
+        PlayerToken token = grid[rows][columns];
+
+        // Check in the positive direction
+        for (int r = rows, c = columns; isInBounds(r, c) && grid[r][c].getColour().equals(token.getColour()); r += rowIncrease, c += colIncrease) {
+            count++;
+        }
+
+        // Check in the negative direction
+        for (int r = rows - rowIncrease, c = columns - colIncrease; isInBounds(r, c) && grid[r][c].getColour().equals(token.getColour()); r -= rowIncrease, c -= colIncrease) {
+            count++;
+        }
+
+        // Check if the count meets the winning length
+        return count >= winningRowLength; //
+    }
+    private boolean isInBounds(int row, int col) {
+        return row >= 0 && row < this.row && col >= 0 && col < this.column;
+    }
+
 }
