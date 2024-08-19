@@ -24,6 +24,22 @@ public class Main {
             //Display the initial game grid
             System.out.println("Initial Grid");
             game.displayGridState();
+            //Loop to run the game
+            boolean playingGame = true;
+            while (playingGame) {
+                //Get Current Player and where they wish to drop token
+                Player currentPlayer = game.getCurrentPlayer();
+                System.out.println("Player with " + currentPlayer.getToken().getColourToken() + " tokens, enter the column  (0 to " + (column - 1) + ")you wish to drop your token:");
+                int token = scanner.nextInt();
+                scanner.nextLine();
+                //Add token for player
+                if (game.addNewToken(token)) {
+                    game.displayGridState();
+                    game.nextPlayer();
+                } else {
+                    System.out.println("Failed to add token. Please try again.");
+                }
+            }
         }
         catch (NoSuchElementException e){
             System.out.println("No more input available. Exiting game.");
